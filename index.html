@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bildungswege Stuttgart - Finde deinen Weg</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <h1>Finde deinen Bildungsweg in Stuttgart</h1>
+            <p class="subtitle">Entdecke, welche Möglichkeiten dir mit deinem aktuellen Schulabschluss offenstehen</p>
+            <button class="cta-button" onclick="startWizard()">Jetzt starten</button>
+        </div>
+    </header>
+
+    <!-- Wizard Container -->
+    <main class="wizard-container container" id="wizardContainer" style="display: none;">
+
+        <!-- Schritt 1: Bildungsstand -->
+        <section id="step1" class="wizard-step active">
+            <h2>Schritt 1 von 2: Dein aktueller Bildungsstand</h2>
+            <p class="step-description">Wähle deinen aktuellen Schulabschluss aus:</p>
+
+            <div class="options-grid">
+                <div class="option-card" onclick="selectBildungsstand('kein')">
+                    <div class="option-icon">📚</div>
+                    <h3>Kein Schulabschluss</h3>
+                    <p>Ich habe noch keinen Schulabschluss</p>
+                </div>
+
+                <div class="option-card" onclick="selectBildungsstand('hauptschul')">
+                    <div class="option-icon">📖</div>
+                    <h3>Hauptschulabschluss</h3>
+                    <p>Ich habe einen Hauptschulabschluss</p>
+                </div>
+
+                <div class="option-card" onclick="selectBildungsstand('mittlerer')">
+                    <div class="option-icon">🎓</div>
+                    <h3>Mittlerer Bildungsabschluss</h3>
+                    <p>Ich habe die Fachschulreife oder mittlere Reife</p>
+                </div>
+            </div>
+
+            <div class="validation-message" id="step1Validation" style="display: none;">
+                Bitte wähle eine Option aus
+            </div>
+        </section>
+
+        <!-- Schritt 2: Bildungsziel -->
+        <section id="step2" class="wizard-step" style="display: none;">
+            <button class="back-button" onclick="goToStep(1)">← Zurück</button>
+            <h2>Schritt 2 von 2: Dein Bildungsziel</h2>
+            <p class="step-description">Was möchtest du erreichen?</p>
+
+            <div class="options-grid" id="step2Options">
+                <!-- Wird dynamisch gefüllt -->
+            </div>
+
+            <div class="validation-message" id="step2Validation" style="display: none;">
+                Bitte wähle eine Option aus
+            </div>
+        </section>
+
+        <!-- Ergebnisseite -->
+        <section id="results" class="wizard-step" style="display: none;">
+            <button class="back-button" onclick="startOver()">← Neue Suche</button>
+            <h2>Deine Bildungswege</h2>
+            <div class="results-header" id="resultsHeader"></div>
+
+            <div class="share-section">
+                <h3>Ergebnisse teilen</h3>
+                <div class="share-buttons">
+                    <button onclick="shareViaEmail()" class="share-btn email-btn">📧 Per E-Mail</button>
+                    <button onclick="shareViaWhatsApp()" class="share-btn whatsapp-btn">💬 WhatsApp</button>
+                    <button onclick="copyLink()" class="share-btn link-btn">🔗 Link kopieren</button>
+                </div>
+            </div>
+
+            <div class="results-grid" id="resultsGrid">
+                <!-- Wird dynamisch gefüllt -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <h3>Beratungsstellen in Stuttgart</h3>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h4>Jugendagentur Stuttgart</h4>
+                    <p>📍 Esslingerstr. 42, 70182 Stuttgart</p>
+                    <p>📞 0711 / 25518288</p>
+                    <p>✉️ info@jugendagentur.net</p>
+                    <p>🌐 <a href="https://www.jugendagentur.net" target="_blank">www.jugendagentur.net</a></p>
+                </div>
+
+                <div class="contact-card">
+                    <h4>Agentur für Arbeit Stuttgart</h4>
+                    <p>📍 Nordbahnhofstr. 30-34, 70191 Stuttgart</p>
+                    <p>📞 0800 / 4555500</p>
+                    <p>✉️ Stuttgart.Berufsberatung@arbeitsagentur.de</p>
+                    <p>🌐 <a href="https://www.arbeitsagentur.de" target="_blank">www.arbeitsagentur.de</a></p>
+                </div>
+
+                <div class="contact-card">
+                    <h4>Jobcenter Stuttgart U25</h4>
+                    <p>📍 Rosensteinstr. 11, 70191 Stuttgart</p>
+                    <p>📞 0711 / 216 – 97172</p>
+                    <p>✉️ jobcenter.u25@stuttgart.de</p>
+                    <p>🌐 <a href="https://www.jobcenter-stuttgart.de" target="_blank">www.jobcenter-stuttgart.de</a></p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p><strong>Mit Abschluss gibt es immer einen Anschluss!</strong></p>
+                <p>Stand: Juli 2025 | Quelle: Stuttgarter Arbeitsbündnis Jugend und Beruf</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
