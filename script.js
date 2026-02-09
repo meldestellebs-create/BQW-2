@@ -3,7 +3,28 @@ let currentStep = 0;
 let selectedBildungsstand = '';
 let selectedZiel = '';
 
-// Bildungswege Datenbank
+// Ziel-Optionen je nach Bildungsstand - KORRIGIERT: "deutsch" ist jetzt ZUERST
+const zielOptionen = {
+    kein: [
+        { id: 'deutsch', label: 'Deutsch lernen', icon: '🗣️', desc: 'Deutsche Sprache erlernen und verbessern' },
+        { id: 'hauptschul', label: 'Hauptschulabschluss machen', icon: '📝', desc: 'Einen gleichwertigen Bildungsstand erwerben' },
+        { id: 'orientierung', label: 'Beruflich vorbereiten/orientieren', icon: '🧭', desc: 'Mich beruflich orientieren und vorbereiten' },
+        { id: 'ausbildung', label: 'Ausbildung beginnen', icon: '🎯', desc: 'Eine Ausbildung starten' }
+    ],
+    hauptschul: [
+        { id: 'mittlerer', label: 'Mittleren Bildungsabschluss machen', icon: '📚', desc: 'Die Fachschulreife erwerben' },
+        { id: 'orientierung', label: 'Beruflich vorbereiten/orientieren', icon: '🧭', desc: 'Mich beruflich orientieren' },
+        { id: 'ausbildung', label: 'Ausbildung beginnen', icon: '🎯', desc: 'Eine Ausbildung starten' }
+    ],
+    mittlerer: [
+        { id: 'fhr', label: 'Fachhochschulreife erlangen', icon: '🎓', desc: 'Die Fachhochschulreife erwerben' },
+        { id: 'abitur', label: 'Allgemeine Hochschulreife erlangen', icon: '🎖️', desc: 'Das Abitur machen' },
+        { id: 'orientierung', label: 'Beruflich vorbereiten/orientieren', icon: '🧭', desc: 'Mich beruflich orientieren' },
+        { id: 'ausbildung', label: 'Ausbildung beginnen', icon: '🎯', desc: 'Eine Ausbildung starten' }
+    ]
+};
+
+// Bildungswege Datenbank - KORRIGIERT: "deutsch" ist jetzt an ERSTER Stelle
 const bildungswegeData = {
     kein: {
         deutsch: [
@@ -709,27 +730,6 @@ const bildungswegeData = {
     }
 };
 
-// Ziel-Optionen je nach Bildungsstand
-const zielOptionen = {
-    kein: [
-        { id: 'deutsch', label: 'Deutsch lernen', icon: '🗣️', desc: 'Deutsche Sprache erlernen und verbessern' },
-        { id: 'hauptschul', label: 'Hauptschulabschluss machen', icon: '📝', desc: 'Einen gleichwertigen Bildungsstand erwerben' },
-        { id: 'orientierung', label: 'Beruflich vorbereiten/orientieren', icon: '🧭', desc: 'Mich beruflich orientieren und vorbereiten' },
-        { id: 'ausbildung', label: 'Ausbildung beginnen', icon: '🎯', desc: 'Eine Ausbildung starten' }
-    ],
-    hauptschul: [
-        { id: 'mittlerer', label: 'Mittleren Bildungsabschluss machen', icon: '📚', desc: 'Die Fachschulreife erwerben' },
-        { id: 'orientierung', label: 'Beruflich vorbereiten/orientieren', icon: '🧭', desc: 'Mich beruflich orientieren' },
-        { id: 'ausbildung', label: 'Ausbildung beginnen', icon: '🎯', desc: 'Eine Ausbildung starten' }
-    ],
-    mittlerer: [
-        { id: 'fhr', label: 'Fachhochschulreife erlangen', icon: '🎓', desc: 'Die Fachhochschulreife erwerben' },
-        { id: 'abitur', label: 'Allgemeine Hochschulreife erlangen', icon: '🎖️', desc: 'Das Abitur machen' },
-        { id: 'orientierung', label: 'Beruflich vorbereiten/orientieren', icon: '🧭', desc: 'Mich beruflich orientieren' },
-        { id: 'ausbildung', label: 'Ausbildung beginnen', icon: '🎯', desc: 'Eine Ausbildung starten' }
-    ]
-};
-
 // Funktionen
 function startWizard() {
     document.querySelector('.hero').style.display = 'none';
@@ -780,6 +780,7 @@ function goToStep(step) {
             const card = document.createElement('div');
             card.className = 'option-card';
             card.onclick = () => selectZiel(option.id);
+            card.tabIndex = 0;
             card.innerHTML = `
                 <div class="option-icon">${option.icon}</div>
                 <h3>${option.label}</h3>
@@ -787,10 +788,13 @@ function goToStep(step) {
             `;
             optionsContainer.appendChild(card);
         });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (step === 1) {
         document.getElementById('step2').style.display = 'none';
         document.getElementById('step1').style.display = 'block';
         selectedZiel = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 
@@ -835,7 +839,7 @@ function showResults() {
         <h3>Deine Ausgangssituation</h3>
         <p><strong>Bildungsstand:</strong> ${standLabel[selectedBildungsstand]}</p>
         <p><strong>Ziel:</strong> ${zielLabel}</p>
-        <p style="margin-top: 16px; color: var(--text-gray);">Hier sind die passenden Bildungswege für dich:</p>
+        <p style="margin-top: 24px;">Hier sind die passenden Bildungswege für dich:</p>
     `;
 
     // Populate results
@@ -879,8 +883,8 @@ function showResults() {
             <div class="contact-info">
                 <h4>📞 Kontakt & Anmeldung</h4>
                 <p><strong>${weg.kontakt.name}</strong></p>
-                ${weg.kontakt.telefon ? `<p>Tel: ${weg.kontakt.telefon}</p>` : ''}
-                ${weg.kontakt.email ? `<p>E-Mail: ${weg.kontakt.email}</p>` : ''}
+                ${weg.kontakt.telefon ? `<p>Tel: <a href="tel:${weg.kontakt.telefon.replace(/\s/g, '')}">${weg.kontakt.telefon}</a></p>` : ''}
+                ${weg.kontakt.email ? `<p>E-Mail: <a href="mailto:${weg.kontakt.email}">${weg.kontakt.email}</a></p>` : ''}
                 ${weg.kontakt.web ? `<p><a href="https://${weg.kontakt.web}" target="_blank">${weg.kontakt.web}</a></p>` : ''}
             </div>
         `;
@@ -894,13 +898,21 @@ function showResults() {
 function shareViaEmail() {
     const currentUrl = window.location.href;
     const subject = encodeURIComponent('Meine Bildungswege in Stuttgart');
-    const body = encodeURIComponent(`Ich habe passende Bildungswege für mich gefunden!\n\nSchau dir meine Ergebnisse an: ${currentUrl}\n\nMit Abschluss gibt es immer einen Anschluss!`);
+    const body = encodeURIComponent(`Ich habe passende Bildungswege für mich gefunden!
+
+Schau dir meine Ergebnisse an: ${currentUrl}
+
+Mit Abschluss gibt es immer einen Anschluss!`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
 }
 
 function shareViaWhatsApp() {
     const currentUrl = window.location.href;
-    const text = encodeURIComponent(`Ich habe passende Bildungswege für mich gefunden! 🎓\n\n${currentUrl}\n\nMit Abschluss gibt es immer einen Anschluss!`);
+    const text = encodeURIComponent(`Ich habe passende Bildungswege für mich gefunden! 🎓
+
+${currentUrl}
+
+Mit Abschluss gibt es immer einen Anschluss!`);
     window.open(`https://wa.me/?text=${text}`, '_blank');
 }
 
@@ -908,12 +920,16 @@ function copyLink() {
     const currentUrl = window.location.href;
     navigator.clipboard.writeText(currentUrl).then(() => {
         const btn = event.currentTarget;
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '✅ Link kopiert!';
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg> Link kopiert!';
         btn.style.backgroundColor = 'var(--success-color)';
+        btn.style.borderColor = 'var(--success-color)';
+        btn.style.color = 'white';
         setTimeout(() => {
-            btn.innerHTML = originalText;
+            btn.innerHTML = originalHTML;
             btn.style.backgroundColor = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
         }, 2000);
     });
 }
@@ -937,5 +953,12 @@ window.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('stand') && urlParams.has('ziel')) {
         startWizard();
+    }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.classList.contains('option-card')) {
+        e.target.click();
     }
 });
