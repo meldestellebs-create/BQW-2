@@ -6,21 +6,52 @@ let selectedZiel = '';
 // Bildungswege Datenbank
 const bildungswegeData = {
     kein: {
-        hauptschul: [
+        deutsch: [
             {
                 name: "VABO - Vorqualifizierungsjahr Arbeit/Beruf",
-                description: "Für junge Menschen ohne Hauptschulabschluss, die berufsschulpflichtig sind (u18) mit nicht deutscher Herkunftssprache und geringen Deutschkenntnissen.",
+                description: "Für junge Menschen ohne Deutschkenntnisse, die die deutsche Sprache erlernen möchten.",
                 dauer: "Mindestens 1 Schuljahr",
-                voraussetzungen: "Berufsschulpflichtig (u18), nicht deutsche Herkunftssprache, geringe Deutschkenntnisse",
-                ergebnis: "Spracherwerb bis B1, Vorbereitung für Ausbildung oder weitere Schularten",
+                voraussetzungen: "Berufsschulpflichtig (u18), nicht deutsche Herkunftssprache, geringe oder keine Deutschkenntnisse",
+                ergebnis: "Spracherwerb bis B1, Vorbereitung für Ausbildung oder weitere Schularten (AVdual, Berufsfachschule)",
                 finanzierung: "Schulbesuch kostenfrei",
                 kontakt: {
                     name: "Meldestelle der beruflichen Schulen Stuttgart",
                     telefon: "0711 / 216-60277",
                     email: "meldestelle-bs@stuttgart.de"
                 },
-                besonderheiten: "Sprachförderung bis B1, Vorbereitung Übergang ins berufliche Schulwesen"
+                besonderheiten: "Intensive Sprachförderung bis B1-Niveau, Vorbereitung auf Übergang ins berufliche Schulwesen, Berufsorientierung"
             },
+            {
+                name: "LISA - Qualifizierungsprojekt",
+                description: "Für Spätaussiedler*innen und neu zugewanderte Menschen unter 27 Jahren zum Deutschlernen und Nachholen des Schulabschlusses.",
+                dauer: "Ca. 3 Monate Vorkurs + 1 Schuljahr Hauptkurs",
+                voraussetzungen: "Unter 27 Jahre, Spätaussiedler*in oder neu zugewandert",
+                ergebnis: "Verbesserung der Deutschkenntnisse, Vorbereitung auf Anschlussperspektiven, optional Hauptschulabschluss über Schulfremdenprüfung",
+                finanzierung: "Fahrtkostenerstattung",
+                kontakt: {
+                    name: "Henke Schulungen",
+                    telefon: "0711 / 3000385",
+                    email: "info@henke-schulungen.de"
+                },
+                besonderheiten: "Intensive Deutschförderung, Prüfungsvorbereitung, sozialpädagogische Begleitung"
+            },
+            {
+                name: "Integrationskurs",
+                description: "Bundesweites Angebot zum Erlernen der deutschen Sprache und deutscher Gesellschaft für Zugewanderte.",
+                dauer: "6-10 Monate (600-1000 Unterrichtsstunden)",
+                voraussetzungen: "Migrationshintergrund, Aufenthaltstitel oder EU-Bürger*in, Zuweisung durch Ausländerbehörde oder Jobcenter möglich",
+                ergebnis: "Deutschkenntnisse bis B1, Orientierungskurs über deutsche Gesellschaft und Rechtsordnung",
+                finanzierung: "Für Berechtigte kostenlos oder stark reduziert (2,29 € pro Unterrichtsstunde)",
+                kontakt: {
+                    name: "Volkshochschule Stuttgart oder andere Sprachträger",
+                    telefon: "0711 / 1873-800",
+                    email: "info@vhs-stuttgart.de",
+                    web: "www.vhs-stuttgart.de"
+                },
+                besonderheiten: "Abschluss mit DTZ-Prüfung (Deutsch-Test für Zuwanderer)"
+            }
+        ],
+        hauptschul: [
             {
                 name: "AVdual - Ausbildungsvorbereitung dual",
                 description: "Für junge Menschen ohne und mit Schulabschluss, die berufsschulpflichtig sind, keine Ausbildung beginnen und keine weiterführende Schule besuchen.",
@@ -134,20 +165,6 @@ const bildungswegeData = {
                     email: "meldestelle-bs@stuttgart.de"
                 },
                 besonderheiten: "Hoher Praktikumsanteil, sozialpädagogische Begleitung"
-            },
-            {
-                name: "VABO - Vorqualifizierungsjahr Arbeit/Beruf",
-                description: "Für junge Menschen ohne Hauptschulabschluss mit nicht deutscher Herkunftssprache und geringen Deutschkenntnissen.",
-                dauer: "Mindestens 1 Schuljahr",
-                voraussetzungen: "Berufsschulpflichtig (u18), nicht deutsche Herkunftssprache",
-                ergebnis: "Spracherwerb, Vorbereitung für Ausbildung",
-                finanzierung: "Schulbesuch kostenfrei",
-                kontakt: {
-                    name: "Meldestelle der beruflichen Schulen Stuttgart",
-                    telefon: "0711 / 216-60277",
-                    email: "meldestelle-bs@stuttgart.de"
-                },
-                besonderheiten: "Sprachförderung bis B1"
             },
             {
                 name: "Freiwilligendienste im Inland",
@@ -695,6 +712,7 @@ const bildungswegeData = {
 // Ziel-Optionen je nach Bildungsstand
 const zielOptionen = {
     kein: [
+        { id: 'deutsch', label: 'Deutsch lernen', icon: '🗣️', desc: 'Deutsche Sprache erlernen und verbessern' },
         { id: 'hauptschul', label: 'Hauptschulabschluss machen', icon: '📝', desc: 'Einen gleichwertigen Bildungsstand erwerben' },
         { id: 'orientierung', label: 'Beruflich vorbereiten/orientieren', icon: '🧭', desc: 'Mich beruflich orientieren und vorbereiten' },
         { id: 'ausbildung', label: 'Ausbildung beginnen', icon: '🎯', desc: 'Eine Ausbildung starten' }
@@ -863,7 +881,7 @@ function showResults() {
                 <p><strong>${weg.kontakt.name}</strong></p>
                 ${weg.kontakt.telefon ? `<p>Tel: ${weg.kontakt.telefon}</p>` : ''}
                 ${weg.kontakt.email ? `<p>E-Mail: ${weg.kontakt.email}</p>` : ''}
-                ${weg.kontakt.web ? `<p><a href="${weg.kontakt.web}" target="_blank">${weg.kontakt.web}</a></p>` : ''}
+                ${weg.kontakt.web ? `<p><a href="https://${weg.kontakt.web}" target="_blank">${weg.kontakt.web}</a></p>` : ''}
             </div>
         `;
         resultsGrid.appendChild(card);
