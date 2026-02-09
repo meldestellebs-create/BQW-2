@@ -10,77 +10,116 @@
     <!-- Hero Section -->
     <header class="hero">
         <div class="container">
-            <h1>Finde deinen Bildungsweg in Stuttgart</h1>
-            <p class="subtitle">Entdecke, welche Möglichkeiten dir mit deinem aktuellen Schulabschluss offenstehen</p>
+            <h1 class="hero-title">Finde deinen Bildungsweg in Stuttgart</h1>
+            <p class="hero-subtitle">Entdecke, welche Möglichkeiten dir mit deinem aktuellen Schulabschluss offenstehen</p>
             <button class="cta-button" onclick="startWizard()">Jetzt starten</button>
         </div>
     </header>
 
     <!-- Wizard Container -->
-    <main class="wizard-container container" id="wizardContainer" style="display: none;">
+    <main class="wizard-container" id="wizardContainer" style="display: none;">
 
         <!-- Schritt 1: Bildungsstand -->
         <section id="step1" class="wizard-step active">
-            <h2>Schritt 1 von 2: Dein aktueller Bildungsstand</h2>
-            <p class="step-description">Wähle deinen aktuellen Schulabschluss aus:</p>
-
-            <div class="options-grid">
-                <div class="option-card" onclick="selectBildungsstand('kein')">
-                    <div class="option-icon">📚</div>
-                    <h3>Kein Schulabschluss</h3>
-                    <p>Ich habe noch keinen Schulabschluss</p>
+            <div class="container">
+                <div class="step-header">
+                    <span class="step-number">Schritt 1 von 2</span>
+                    <h2 class="step-title">Dein aktueller Bildungsstand</h2>
+                    <p class="step-description">Wähle deinen aktuellen Schulabschluss aus</p>
                 </div>
 
-                <div class="option-card" onclick="selectBildungsstand('hauptschul')">
-                    <div class="option-icon">📖</div>
-                    <h3>Hauptschulabschluss</h3>
-                    <p>Ich habe einen Hauptschulabschluss</p>
+                <div class="options-grid">
+                    <div class="option-card" onclick="selectBildungsstand('kein')" tabindex="0">
+                        <div class="option-icon">📚</div>
+                        <h3>Kein Schulabschluss</h3>
+                        <p>Ich habe noch keinen Schulabschluss</p>
+                    </div>
+
+                    <div class="option-card" onclick="selectBildungsstand('hauptschul')" tabindex="0">
+                        <div class="option-icon">📖</div>
+                        <h3>Hauptschulabschluss</h3>
+                        <p>Ich habe einen Hauptschulabschluss</p>
+                    </div>
+
+                    <div class="option-card" onclick="selectBildungsstand('mittlerer')" tabindex="0">
+                        <div class="option-icon">🎓</div>
+                        <h3>Mittlerer Bildungsabschluss</h3>
+                        <p>Ich habe die Fachschulreife oder mittlere Reife</p>
+                    </div>
                 </div>
 
-                <div class="option-card" onclick="selectBildungsstand('mittlerer')">
-                    <div class="option-icon">🎓</div>
-                    <h3>Mittlerer Bildungsabschluss</h3>
-                    <p>Ich habe die Fachschulreife oder mittlere Reife</p>
+                <div class="validation-message" id="step1Validation" style="display: none;">
+                    Bitte wähle eine Option aus
                 </div>
-            </div>
-
-            <div class="validation-message" id="step1Validation" style="display: none;">
-                Bitte wähle eine Option aus
             </div>
         </section>
 
         <!-- Schritt 2: Bildungsziel -->
         <section id="step2" class="wizard-step" style="display: none;">
-            <button class="back-button" onclick="goToStep(1)">← Zurück</button>
-            <h2>Schritt 2 von 2: Dein Bildungsziel</h2>
-            <p class="step-description">Was möchtest du erreichen?</p>
+            <div class="container">
+                <button class="back-button" onclick="goToStep(1)">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Zurück
+                </button>
+                <div class="step-header">
+                    <span class="step-number">Schritt 2 von 2</span>
+                    <h2 class="step-title">Dein Bildungsziel</h2>
+                    <p class="step-description">Was möchtest du erreichen?</p>
+                </div>
 
-            <div class="options-grid" id="step2Options">
-                <!-- Wird dynamisch gefüllt -->
-            </div>
+                <div class="options-grid" id="step2Options">
+                    <!-- Wird dynamisch gefüllt -->
+                </div>
 
-            <div class="validation-message" id="step2Validation" style="display: none;">
-                Bitte wähle eine Option aus
+                <div class="validation-message" id="step2Validation" style="display: none;">
+                    Bitte wähle eine Option aus
+                </div>
             </div>
         </section>
 
         <!-- Ergebnisseite -->
         <section id="results" class="wizard-step" style="display: none;">
-            <button class="back-button" onclick="startOver()">← Neue Suche</button>
-            <h2>Deine Bildungswege</h2>
-            <div class="results-header" id="resultsHeader"></div>
+            <div class="container">
+                <button class="back-button" onclick="startOver()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Neue Suche
+                </button>
 
-            <div class="share-section">
-                <h3>Ergebnisse teilen</h3>
-                <div class="share-buttons">
-                    <button onclick="shareViaEmail()" class="share-btn email-btn">📧 Per E-Mail</button>
-                    <button onclick="shareViaWhatsApp()" class="share-btn whatsapp-btn">💬 WhatsApp</button>
-                    <button onclick="copyLink()" class="share-btn link-btn">🔗 Link kopieren</button>
+                <div class="results-header" id="resultsHeader"></div>
+
+                <div class="share-section">
+                    <h3>Ergebnisse teilen</h3>
+                    <div class="share-buttons">
+                        <button onclick="shareViaEmail()" class="share-btn email-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M3 4h14a2 2 0 012 2v8a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M19 6l-9 6-9-6" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            Per E-Mail
+                        </button>
+                        <button onclick="shareViaWhatsApp()" class="share-btn whatsapp-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 0C4.477 0 0 4.477 0 10c0 1.89.525 3.66 1.438 5.168L.546 18.82a.75.75 0 00.934.934l3.652-.892A9.96 9.96 0 0010 20c5.523 0 10-4.477 10-10S15.523 0 10 0zm5.45 14.475c-.25.7-1.475 1.35-2.05 1.425-.55.075-1.025.125-3.3-.7-2.925-1.05-4.8-4-4.95-4.2-.15-.2-1.2-1.6-1.2-3.05s.75-2.15 1.05-2.45c.25-.25.6-.35.8-.35.2 0 .4 0 .575.025.175.025.45-.075.7.55.25.625.85 2.075.925 2.225.075.15.125.325.025.525-.1.2-.15.325-.3.5-.15.175-.3.375-.425.5-.15.15-.3.3-.125.6.175.3.775 1.275 1.675 2.05 1.15.975 2.1 1.3 2.4 1.425.3.125.475.1.65-.075.175-.175.75-.875.95-1.175.2-.3.4-.25.675-.15.275.1 1.75.825 2.05.975.3.15.5.225.575.35.075.125.075.725-.175 1.425z"/>
+                            </svg>
+                            WhatsApp
+                        </button>
+                        <button onclick="copyLink()" class="share-btn link-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M8 10a5 5 0 017.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                <path d="M12 10a5 5 0 01-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            Link kopieren
+                        </button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="results-grid" id="resultsGrid">
-                <!-- Wird dynamisch gefüllt -->
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Wird dynamisch gefüllt -->
+                </div>
             </div>
         </section>
     </main>
@@ -93,31 +132,31 @@
                 <div class="contact-card">
                     <h4>Jugendagentur Stuttgart</h4>
                     <p>📍 Esslingerstr. 42, 70182 Stuttgart</p>
-                    <p>📞 0711 / 25518288</p>
-                    <p>✉️ info@jugendagentur.net</p>
+                    <p>📞 <a href="tel:071125518288">0711 / 25518288</a></p>
+                    <p>✉️ <a href="mailto:info@jugendagentur.net">info@jugendagentur.net</a></p>
                     <p>🌐 <a href="https://www.jugendagentur.net" target="_blank">www.jugendagentur.net</a></p>
                 </div>
 
                 <div class="contact-card">
                     <h4>Agentur für Arbeit Stuttgart</h4>
                     <p>📍 Nordbahnhofstr. 30-34, 70191 Stuttgart</p>
-                    <p>📞 0800 / 4555500</p>
-                    <p>✉️ Stuttgart.Berufsberatung@arbeitsagentur.de</p>
+                    <p>📞 <a href="tel:08004555500">0800 / 4555500</a></p>
+                    <p>✉️ <a href="mailto:Stuttgart.Berufsberatung@arbeitsagentur.de">Stuttgart.Berufsberatung@arbeitsagentur.de</a></p>
                     <p>🌐 <a href="https://www.arbeitsagentur.de" target="_blank">www.arbeitsagentur.de</a></p>
                 </div>
 
                 <div class="contact-card">
                     <h4>Jobcenter Stuttgart U25</h4>
                     <p>📍 Rosensteinstr. 11, 70191 Stuttgart</p>
-                    <p>📞 0711 / 216 – 97172</p>
-                    <p>✉️ jobcenter.u25@stuttgart.de</p>
+                    <p>📞 <a href="tel:071121697172">0711 / 216-97172</a></p>
+                    <p>✉️ <a href="mailto:jobcenter.u25@stuttgart.de">jobcenter.u25@stuttgart.de</a></p>
                     <p>🌐 <a href="https://www.jobcenter-stuttgart.de" target="_blank">www.jobcenter-stuttgart.de</a></p>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p><strong>Mit Abschluss gibt es immer einen Anschluss!</strong></p>
-                <p>Stand: Juli 2025 | Quelle: Stuttgarter Arbeitsbündnis Jugend und Beruf</p>
+                <p class="motto">Mit Abschluss gibt es immer einen Anschluss!</p>
+                <p class="footer-meta">Stand: Juli 2025 | Quelle: Stuttgarter Arbeitsbündnis Jugend und Beruf</p>
             </div>
         </div>
     </footer>
